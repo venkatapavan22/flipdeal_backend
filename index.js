@@ -1,11 +1,9 @@
 const express = require('express');
 const { resolve } = require('path');
-const cors=require('cors')
-
-
+const cors = require('cors');
 
 const app = express();
-app.use(cors())
+app.use(cors());
 
 const port = 3000;
 
@@ -20,6 +18,25 @@ app.get('/cart-total', (req, res) => {
   let cartTotal = parseFloat(req.query.cartTotal);
   let total = (newItemPrice + cartTotal).toString();
   res.send(total);
+});
+
+app.get('/membership-discount', (req, res) => {
+  let cartTotal = parseFloat(req.query.cartTotal);
+  let isMember = req.query.isMember;
+  let finalAmount;
+  if (isMember === 'true') {
+    finalAmount = cartTotal - cartTotal * (10 / 100);
+  } else {
+    finalAmount = cartTotal - cartTotal * (0 / 100);
+  }
+  res.send(finalAmount.toString());
+});
+
+app.get('/calculate-tax', (req, res) => {
+  let cartTotal = parseFloat(req.query.cartTotal);
+  let tax = 5 / 100;
+  let taxAmount = cartTotal * tax;
+  res.send(taxAmount.toString());
 });
 
 function totalDays(shippingMethod, distance) {
@@ -42,6 +59,7 @@ function overallCost(weight, distance) {
   let packageCost = weight * distance * 0.1;
   return packageCost;
 }
+
 app.get('/shipping-cost', (req, res) => {
   let weight = parseFloat(req.query.weight);
   let distance = parseFloat(req.query.distance);
