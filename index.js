@@ -10,7 +10,7 @@ const port = 3000;
 app.use(express.static('static'));
 
 app.get('/', (req, res) => {
-  res.send('api testing');
+  res.send("Demo Route");
 });
 
 app.get('/cart-total', (req, res) => {
@@ -31,6 +31,7 @@ app.get('/membership-discount', (req, res) => {
   }
   res.send(finalAmount.toString());
 });
+
 
 app.get('/calculate-tax', (req, res) => {
   let cartTotal = parseFloat(req.query.cartTotal);
